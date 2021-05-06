@@ -154,14 +154,19 @@ export default class SettingsMenu extends BaseComponent {
   goLocale: boolean = false;
 
   darkModeChange(status: boolean) {
-    this.$gtag.event("dark_mode", {
-      event_category: "user_settings",
-      event_label: "color_schema",
-      value: status
-    });
     if (status !== this.darkMode) {
       vxm.general.toggleDarkMode();
     }
+
+    this.$gtag.pageview({
+      page_path: `/color-schema/${this.darkMode ? "dark" : "light"}`
+    });
+
+    this.$gtag.event("dark_mode", {
+      event_category: "user_settings",
+      event_label: "color_schema",
+      value: this.darkMode
+    });
   }
 
   get adminMode() {
